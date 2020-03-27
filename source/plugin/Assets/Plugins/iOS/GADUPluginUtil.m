@@ -8,6 +8,8 @@
 @property UILayoutGuide *safeAreaLayoutGuide;
 @end
 
+int GADUDeviceSafeWidth();
+
 BOOL GADUIsOperatingSystemAtLeastVersion(NSInteger majorVersion) {
   NSProcessInfo *processInfo = NSProcessInfo.processInfo;
   if ([processInfo respondsToSelector:@selector(isOperatingSystemAtLeastVersion:)]) {
@@ -152,6 +154,9 @@ static BOOL _pauseOnBackground = NO;
 }
 
 + (GADAdSize)adaptiveAdSizeForWidth:(CGFloat)width orientation:(GADUBannerOrientation)orientation {
+  if (width == kGADUAdSizeUseFullWidth) {
+    width = GADUDeviceSafeWidth();
+  }
   switch (orientation) {
     case kGADUBannerOrientationCurrent:
       return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width);
